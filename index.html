@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Kenyon Weiss">
+<title>Transcreate. Say it like a native.</title>
+<meta name="description" content="Paste your text, pick a language and a dialect. Transcreate rewrites it the way a native speaker would say it. Free.">
+<style>
+  :root {
+    --ink: #1d1b19;
+    --muted: #7a746c;
+    --line: #e4ded5;
+    --paper: #faf8f4;
+    --accent: #c8452c;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  main {
+    width: 100%;
+    max-width: 720px;
+    padding: 14vh 24px 48px;
+    flex: 1;
+  }
+  h1 {
+    font-size: 64px;
+    font-weight: 400;
+    letter-spacing: -2px;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+  h1 span { color: var(--accent); }
+  .tag {
+    text-align: center;
+    color: var(--muted);
+    font-size: 19px;
+    font-style: italic;
+    margin: 0 0 40px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    resize: vertical;
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    font: 20px/1.5 Georgia, serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea:focus { border-color: #cfc6b8; box-shadow: 0 2px 14px rgba(0,0,0,.06); }
+  .row {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  select {
+    font: 16px Georgia, serif;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+    min-width: 150px;
+  }
+  select[hidden] { display: none; }
+  button.go {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 28px;
+    font: 17px Georgia, serif;
+    cursor: pointer;
+    transition: opacity .15s, transform .05s;
+  }
+  button.go:hover { opacity: .9; }
+  button.go:active { transform: translateY(1px); }
+  button.go:disabled { opacity: .5; cursor: default; }
+  .result { margin-top: 36px; display: none; }
+  .result.show { display: block; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 8px; font-style: italic; }
+  .out {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    font-size: 20px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    min-height: 60px;
+  }
+  .copy {
+    margin-top: 12px;
+    background: none;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font: 16px Georgia, serif;
+    cursor: pointer;
+  }
+  .copy:hover { background: var(--ink); color: #fff; }
+  .err { color: var(--accent); margin-top: 16px; display: none; }
+  footer {
+    padding: 24px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 46px; }
+    main { padding-top: 9vh; }
+    button.go { width: 100%; margin-left: 0; }
+    select { flex: 1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>trans<span>create</span></h1>
+  <p class="tag">Don't just translate it. Say it like a native.</p>
+
+  <textarea id="src" maxlength="3000" placeholder="Type or paste your text. Any language." autofocus></textarea>
+
+  <div class="row">
+    <select id="lang" aria-label="Output language"></select>
+    <select id="variant" aria-label="Dialect" hidden></select>
+    <button class="go" id="go">Transcreate</button>
+  </div>
+  <div class="err" id="err"></div>
+
+  <section class="result" id="result">
+    <div class="meta" id="meta"></div>
+    <div class="out" id="out"></div>
+    <button class="copy" id="copy">Copy</button>
+  </section>
+</main>
+<footer>Free to use. Made by Kenyon Weiss.</footer>
+
+<script>
+const LANGS = {
+  "Spanish": ["Any / neutral", "Argentinian", "Mexican", "Colombian", "Spain", "Chilean", "Peruvian", "Venezuelan", "Caribbean", "US Latino"],
+  "English": ["Any / neutral", "American", "British", "Australian", "Canadian", "Irish", "Indian"],
+  "Portuguese": ["Any / neutral", "Brazilian", "European (Portugal)"],
+  "French": ["Any / neutral", "France", "Canadian (Quebec)", "Belgian", "Swiss", "West African"],
+  "Italian": [],
+  "German": ["Any / neutral", "Germany", "Austrian", "Swiss"],
+  "Chinese": ["Simplified (Mandarin)", "Traditional (Taiwan)", "Cantonese (Hong Kong)"],
+  "Arabic": ["Modern Standard", "Egyptian", "Gulf", "Levantine", "Moroccan"],
+  "Japanese": [],
+  "Korean": [],
+  "Russian": [],
+  "Hindi": [],
+  "Dutch": [],
+  "Turkish": [],
+  "Polish": [],
+  "Swedish": [],
+  "Greek": [],
+  "Hebrew": [],
+  "Vietnamese": [],
+  "Indonesian": [],
+  "Tagalog": []
+};
+
+const $ = id => document.getElementById(id);
+const lang = $("lang"), variant = $("variant");
+
+Object.keys(LANGS).forEach(l => {
+  const o = document.createElement("option");
+  o.value = o.textContent = l;
+  lang.appendChild(o);
+});
+
+function fillVariants() {
+  const list = LANGS[lang.value] || [];
+  variant.innerHTML = "";
+  if (!list.length) { variant.hidden = true; return; }
+  list.forEach(v => {
+    const o = document.createElement("option");
+    o.value = o.textContent = v;
+    variant.appendChild(o);
+  });
+  variant.hidden = false;
+}
+lang.addEventListener("change", fillVariants);
+fillVariants();
+
+async function run() {
+  const text = $("src").value.trim();
+  $("err").style.display = "none";
+  if (!text) return;
+  const btn = $("go");
+  btn.disabled = true;
+  btn.textContent = "Working...";
+  try {
+    const r = await fetch("/api/transcreate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text,
+        language: lang.value,
+        variant: variant.hidden ? "" : variant.value
+      })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Something went wrong.");
+    $("out").textContent = d.output;
+    $("meta").textContent = d.detected ? "Detected: " + d.detected : "";
+    $("result").classList.add("show");
+    $("copy").textContent = "Copy";
+  } catch (e) {
+    $("err").textContent = e.message;
+    $("err").style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Transcreate";
+  }
+}
+
+$("go").addEventListener("click", run);
+$("src").addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") run();
+});
+$("copy").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText($("out").textContent);
+    $("copy").textContent = "Copied";
+    setTimeout(() => $("copy").textContent = "Copy", 1600);
+  } catch (e) {
+    const rng = document.createRange();
+    rng.selectNodeContents($("out"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(rng);
+  }
+});
+</script>
+</body>
+</html>
