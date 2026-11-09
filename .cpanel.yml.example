@@ -1,0 +1,7 @@
+# Copy to .cpanel.yml once cPanel Git Version Control is switched on for this repo.
+# Replace CPANELUSER with the hosting account's cPanel user name.
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/CPANELUSER/public_html/transcreate.com/
+    - /bin/cp -R site-root/. $DEPLOYPATH

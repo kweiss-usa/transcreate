@@ -209,7 +209,7 @@ async function run() {
   btn.disabled = true;
   btn.textContent = "Working...";
   try {
-    const r = await fetch("/api/transcreate", {
+    const r = await fetch("/api/transcreate.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
