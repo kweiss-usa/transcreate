@@ -2,7 +2,7 @@ RewriteEngine On
 
 # Visitor arrived over plain http (Cloudflare reports the visitor scheme in CF-Visitor)
 RewriteCond %{REQUEST_URI} !^/\.well-known/
-RewriteCond %{HTTP:CF-Visitor} "scheme":"http"\}
+RewriteCond %{HTTP:CF-Visitor} '"scheme":"http"\}'
 RewriteRule ^ https://transcreate.com%{REQUEST_URI} [L,R=301]
 
 # www goes to the bare domain
