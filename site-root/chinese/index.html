@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Kenyon Weiss">
+<title>Transcreate into Chinese: free, native-sounding Chinese | Transcreate</title>
+<meta name="description" content="Free AI transcreation into Chinese. Paste your text, pick a dialect, and get a rewrite that sounds written in Chinese, not translated. No sign-up.">
+<link rel="canonical" href="https://transcreate.com/chinese/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0d10">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Transcreate">
+<meta property="og:url" content="https://transcreate.com/chinese/">
+<meta property="og:title" content="Transcreate into Chinese. Say it like a native.">
+<meta property="og:description" content="Free AI transcreation into Chinese. Paste your text, pick a dialect, and get a rewrite that sounds written in Chinese, not translated. No sign-up.">
+<meta property="og:image" content="https://transcreate.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Transcreate. Say it like a native.">
+<meta name="twitter:description" content="Free, no sign-up. Rewrites your text the way a native speaker would say it, in the dialect you pick.">
+<meta name="twitter:image" content="https://transcreate.com/og.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RYFKPXLX5E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-RYFKPXLX5E");</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Transcreate into Chinese","url":"https://transcreate.com/chinese/","description":"Free AI transcreation. Paste text in any language, pick an output language and dialect, and get a native-sounding rewrite instead of a literal translation.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Kenyon Weiss"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0d10;
+    --panel: #1a1b20;
+    --panel-hi: #202228;
+    --line: #2a2c33;
+    --ink: #f2f3f6;
+    --muted: #8b8f9a;
+    --accent: #F24E29;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: Geist, "Helvetica Neue", Arial, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #wave {
+    position: fixed;
+    left: 0; bottom: 0;
+    width: 100%; height: 62vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+  main {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 760px;
+    padding: 13vh 24px 48px;
+    flex: 1;
+  }
+  .mark { display: block; width: 56px; height: 56px; margin: 0 auto 24px; border-radius: 50%; transition: transform .2s ease; }
+  .mark img { display: block; width: 100%; height: 100%; border-radius: 50%; }
+  .mark:hover { transform: scale(1.08); }
+  h1 {
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: -3.5px;
+    line-height: 1;
+    margin: 0 0 14px;
+    text-align: center;
+  }
+  h1 span { color: var(--accent); }
+  .tag {
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0 0 44px;
+    height: 28px;
+    line-height: 28px;
+    white-space: nowrap;
+    transition: opacity .45s ease, transform .45s ease, filter .45s ease;
+  }
+  .tag.fade { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+  .box {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 20px 20px 14px 26px;
+    transition: border-color .15s, background .15s;
+  }
+  .box:focus-within { border-color: #3d4049; background: var(--panel-hi); }
+  textarea {
+    display: block;
+    width: 100%;
+    min-height: 96px;
+    resize: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font: 400 20px/1.5 Geist, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    outline: none;
+  }
+  textarea::placeholder { color: #6f737e; }
+  .row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .into { color: var(--muted); font-size: 15px; margin: 0 4px 0 2px; }
+  select {
+    font: 400 15px Geist, "Helvetica Neue", Arial, sans-serif;
+    padding: 10px 38px 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.75 6 6.25l4.5-4.5' fill='none' stroke='%238b8f9a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+  }
+  select:hover, select:focus { border-color: #444851; }
+  select option { background: #1a1b20; color: var(--ink); }
+  select[hidden] { display: none; }
+  button.go {
+    margin-left: auto;
+    background: var(--accent);
+    color: #0c0d10;
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 26px;
+    font: 500 16px Geist, "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: opacity .15s, transform .05s;
+  }
+  button.go:hover { opacity: .88; }
+  button.go:active { transform: translateY(1px); }
+  button.go:disabled { opacity: .5; cursor: default; }
+  .result { margin-top: 28px; display: none; }
+  .result.show { display: block; }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 10px 6px; }
+  .out {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 24px 28px;
+    font-size: 20px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    min-height: 60px;
+  }
+  .copy {
+    margin-top: 12px;
+    background: none;
+    border: 1px solid #3a3d46;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font: 500 15px Geist, "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .copy:hover { background: var(--panel-hi); }
+  .err { color: #f28b82; margin: 14px 0 0 6px; display: none; }
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 24px;
+    color: #5f636e;
+    font-size: 13px;
+    text-align: center;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .about { position: relative; z-index: 1; width: 100%; background: var(--bg); border-top: 1px solid var(--line); padding: 72px 24px 24px; }
+  .about .wrap { max-width: 680px; margin: 0 auto; }
+  .about h2 { font-size: 26px; font-weight: 600; letter-spacing: -.5px; margin: 40px 0 12px; }
+  .about h2:first-child { margin-top: 0; }
+  .about h3 { font-size: 17px; font-weight: 500; margin: 24px 0 6px; }
+  .about p { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 0 0 12px; }
+  .about a { color: var(--accent); text-decoration: none; }
+  .about a:hover { text-decoration: underline; }
+  footer { background: var(--bg); width: 100%; }
+  @media (max-width: 560px) {
+    h1 { font-size: 50px; letter-spacing: -2.5px; }
+    main { padding-top: 8vh; }
+    .mark { width: 48px; height: 48px; margin-bottom: 18px; }
+    .tag { height: 56px; white-space: normal; }
+    .box { padding: 16px 14px 12px 18px; border-radius: 24px; }
+    button.go { width: 100%; margin-left: 0; margin-top: 4px; }
+    select { flex: 1; }
+    .into { width: 100%; margin: 0 0 2px 2px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="wave" aria-hidden="true"></canvas>
+<main>
+  <a class="mark" href="https://brandstudios.com" target="_blank" rel="noopener" aria-label="Brand Studios"><img src="/brand-mark.png" width="56" height="56" alt="Brand Studios"></a>
+  <h1>trans<span>create</span></h1>
+  <p class="tag" id="tag" lang="en" aria-label="Don't just translate it. Say it like a native.">Don't just translate it. Say it like a native.</p>
+
+  <div class="box">
+    <textarea id="src" maxlength="3000" placeholder="Type or paste your text. Any language." autofocus></textarea>
+    <div class="row">
+      <span class="into">Transcreate into</span>
+      <select id="lang" aria-label="Output language"></select>
+      <select id="variant" aria-label="Dialect" hidden></select>
+      <button class="go" id="go">Transcreate</button>
+    </div>
+  </div>
+  <div class="err" id="err"></div>
+
+  <section class="result" id="result">
+    <div class="meta" id="meta"></div>
+    <div class="out" id="out"></div>
+    <button class="copy" id="copy">Copy</button>
+  </section>
+</main>
+<section class="about"><div class="wrap">
+<h2>Transcreate into Chinese</h2>
+<p>Simplified Mandarin, Traditional Taiwanese Chinese and Hong Kong Cantonese are three different reading experiences. Choose one and get wording that fits it, not a character swap.</p>
+<p>Dialects available: Simplified (Mandarin), Traditional (Taiwan), Cantonese (Hong Kong).</p>
+<p>Paste your text in any language, choose Chinese and a dialect, and copy the result. It is free and needs no account.</p>
+<p><a href="/">See all 21 languages</a></p>
+</div></section>
+<footer>Free to use. Need a human touch? <a href="https://brandstudios.com" target="_blank" rel="noopener">Talk to Brand Studios</a></footer>
+
+<script>window.PRESET = "Chinese";</script>
+<script>
+const LANGS = {
+  "Spanish": ["Any / neutral", "Argentinian", "Mexican", "Colombian", "Spain", "Chilean", "Peruvian", "Venezuelan", "Caribbean", "US Latino"],
+  "English": ["Any / neutral", "American", "British", "Australian", "Canadian", "Irish", "Indian"],
+  "Portuguese": ["Any / neutral", "Brazilian", "European (Portugal)"],
+  "French": ["Any / neutral", "France", "Canadian (Quebec)", "Belgian", "Swiss", "West African"],
+  "Italian": [],
+  "German": ["Any / neutral", "Germany", "Austrian", "Swiss"],
+  "Chinese": ["Simplified (Mandarin)", "Traditional (Taiwan)", "Cantonese (Hong Kong)"],
+  "Arabic": ["Modern Standard", "Egyptian", "Gulf", "Levantine", "Moroccan"],
+  "Japanese": [],
+  "Korean": [],
+  "Russian": [],
+  "Hindi": [],
+  "Dutch": [],
+  "Turkish": [],
+  "Polish": [],
+  "Swedish": [],
+  "Greek": [],
+  "Hebrew": [],
+  "Vietnamese": [],
+  "Indonesian": [],
+  "Tagalog": []
+};
+
+const $ = id => document.getElementById(id);
+const lang = $("lang"), variant = $("variant");
+
+Object.keys(LANGS).forEach(l => {
+  const o = document.createElement("option");
+  o.value = o.textContent = l;
+  lang.appendChild(o);
+});
+
+function fillVariants() {
+  const list = LANGS[lang.value] || [];
+  variant.innerHTML = "";
+  if (!list.length) { variant.hidden = true; return; }
+  list.forEach(v => {
+    const o = document.createElement("option");
+    o.value = o.textContent = v;
+    variant.appendChild(o);
+  });
+  variant.hidden = false;
+}
+lang.addEventListener("change", fillVariants);
+fillVariants();
+if (window.PRESET && LANGS[window.PRESET]) { lang.value = window.PRESET; fillVariants(); }
+
+async function run() {
+  const text = $("src").value.trim();
+  $("err").style.display = "none";
+  if (!text) return;
+  const btn = $("go");
+  btn.disabled = true;
+  btn.textContent = "Working...";
+  try {
+    const r = await fetch("/api/transcreate.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text,
+        language: lang.value,
+        variant: variant.hidden ? "" : variant.value
+      })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Something went wrong.");
+    $("out").textContent = d.output;
+    $("meta").textContent = d.detected ? "Detected: " + d.detected : "";
+    $("result").classList.add("show");
+    $("copy").textContent = "Copy";
+  } catch (e) {
+    $("err").textContent = e.message;
+    $("err").style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Transcreate";
+  }
+}
+
+$("go").addEventListener("click", run);
+$("src").addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") run();
+});
+$("copy").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText($("out").textContent);
+    $("copy").textContent = "Copied";
+    setTimeout(() => $("copy").textContent = "Copy", 1600);
+  } catch (e) {
+    const rng = document.createRange();
+    rng.selectNodeContents($("out"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(rng);
+  }
+});
+
+// Dotted wave background
+(function () {
+  const cv = document.getElementById("wave");
+  const cx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, dpr = 1, t = 0, raf = 0;
+  const ROWS = 46, COLS = 110;
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw() {
+    cx.clearRect(0, 0, W, H);
+    const horizon = H * 0.18;
+    for (let r = 0; r < ROWS; r++) {
+      const z = r / (ROWS - 1);
+      const zz = Math.pow(z, 1.7);
+      const baseY = horizon + (H - horizon) * zz;
+      const spread = W * (0.55 + 1.5 * z);
+      const amp = (6 + 46 * z) * (0.6 + 0.4 * Math.sin(t * 0.4));
+      const rad = 0.5 + 1.5 * z;
+      const alpha = 0.06 + 0.34 * z;
+      cx.fillStyle = "rgba(190,205,235," + alpha.toFixed(3) + ")";
+      for (let c = 0; c < COLS; c++) {
+        const u = c / (COLS - 1) - 0.5;
+        const x = W / 2 + u * spread;
+        if (x < -4 || x > W + 4) continue;
+        const y = baseY + amp * Math.sin(u * 9 + t + z * 6) * (0.5 + 0.5 * Math.cos(u * 3 - t * 0.6));
+        cx.beginPath();
+        cx.arc(x, y, rad, 0, 6.2832);
+        cx.fill();
+      }
+    }
+  }
+  function loop() { t += 0.012; draw(); raf = requestAnimationFrame(loop); }
+  size(); draw();
+  addEventListener("resize", () => { size(); draw(); });
+  if (!reduce) {
+    loop();
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(raf);
+      if (!document.hidden) loop();
+    });
+  }
+})();
+
+// Tagline rotates through languages, forever
+(function () {
+  const el = document.getElementById("tag");
+  const T = [
+    ["en", "ltr", "Don't just translate it. Say it like a native."],
+    ["es", "ltr", "No lo traduzcas sin más. Dilo como un nativo."],
+    ["pt", "ltr", "Não se limite a traduzir. Diga como um nativo."],
+    ["fr", "ltr", "Ne vous contentez pas de traduire. Dites-le comme un natif."],
+    ["it", "ltr", "Non limitarti a tradurre. Dillo come un madrelingua."],
+    ["de", "ltr", "Übersetze nicht nur. Sag es wie ein Muttersprachler."],
+    ["ja", "ltr", "ただ翻訳するのではなく、ネイティブのように伝えよう。"],
+    ["zh", "ltr", "别只是翻译,要像母语者那样表达。"],
+    ["ko", "ltr", "그저 번역하지 마세요. 원어민처럼 말하세요."],
+    ["ar", "rtl", "لا تكتفِ بالترجمة. قلها كما يقولها أهل اللغة."],
+    ["ru", "ltr", "Не просто переводите. Говорите как носитель языка."],
+    ["hi", "ltr", "सिर्फ़ अनुवाद मत कीजिए। मूल भाषी की तरह कहिए।"],
+    ["tr", "ltr", "Sadece çevirmeyin. Ana dili gibi söyleyin."]
+  ];
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let i = 0;
+  setInterval(() => {
+    if (document.hidden) return;
+    el.classList.add("fade");
+    setTimeout(() => {
+      i = (i + 1) % T.length;
+      el.lang = T[i][0]; el.dir = T[i][1]; el.textContent = T[i][2];
+      el.classList.remove("fade");
+    }, 460);
+  }, 3600);
+})();
+</script>
+</body>
+</html>

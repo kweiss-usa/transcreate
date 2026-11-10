@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://transcreate.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://transcreate.com/spanish/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/french/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/portuguese/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/german/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/italian/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/chinese/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/japanese/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/korean/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/arabic/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/russian/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/hindi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/english/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/turkish/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://transcreate.com/dutch/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
