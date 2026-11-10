@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_tc/
+
+Sitemap: https://transcreate.com/sitemap.xml
