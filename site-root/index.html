@@ -67,7 +67,7 @@
     white-space: nowrap;
     transition: opacity .45s ease, transform .45s ease, filter .45s ease;
   }
-  .tag.out { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+  .tag.fade { opacity: 0; transform: translateY(8px); filter: blur(4px); }
   .box {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -362,11 +362,11 @@ $("copy").addEventListener("click", async () => {
   let i = 0;
   setInterval(() => {
     if (document.hidden) return;
-    el.classList.add("out");
+    el.classList.add("fade");
     setTimeout(() => {
       i = (i + 1) % T.length;
       el.lang = T[i][0]; el.dir = T[i][1]; el.textContent = T[i][2];
-      el.classList.remove("out");
+      el.classList.remove("fade");
     }, 460);
   }, 3600);
 })();
