@@ -62,7 +62,9 @@
     font-size: 18px;
     font-weight: 400;
     margin: 0 0 44px;
-    min-height: 28px;
+    height: 28px;
+    line-height: 28px;
+    white-space: nowrap;
     transition: opacity .45s ease, transform .45s ease, filter .45s ease;
   }
   .tag.out { opacity: 0; transform: translateY(8px); filter: blur(4px); }
@@ -159,6 +161,7 @@
   @media (max-width: 560px) {
     h1 { font-size: 50px; letter-spacing: -2.5px; }
     main { padding-top: 11vh; }
+    .tag { height: 56px; white-space: normal; }
     .box { padding: 16px 14px 12px 18px; border-radius: 24px; }
     button.go { width: 100%; margin-left: 0; margin-top: 4px; }
     select { flex: 1; }
