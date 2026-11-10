@@ -91,6 +91,7 @@
     flex-wrap: wrap;
     align-items: center;
   }
+  .into { color: var(--muted); font-size: 15px; margin: 0 4px 0 2px; }
   select {
     font: 400 15px Geist, "Helvetica Neue", Arial, sans-serif;
     padding: 10px 14px;
@@ -158,6 +159,7 @@
     .box { padding: 16px 14px 12px 18px; border-radius: 24px; }
     button.go { width: 100%; margin-left: 0; margin-top: 4px; }
     select { flex: 1; }
+    .into { width: 100%; margin: 0 0 2px 2px; }
   }
 </style>
 </head>
@@ -170,6 +172,7 @@
   <div class="box">
     <textarea id="src" maxlength="3000" placeholder="Type or paste your text. Any language." autofocus></textarea>
     <div class="row">
+      <span class="into">Transcreate into</span>
       <select id="lang" aria-label="Output language"></select>
       <select id="variant" aria-label="Dialect" hidden></select>
       <button class="go" id="go">Transcreate</button>
