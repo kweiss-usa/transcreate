@@ -62,7 +62,10 @@
     font-size: 18px;
     font-weight: 400;
     margin: 0 0 44px;
+    min-height: 28px;
+    transition: opacity .45s ease, transform .45s ease, filter .45s ease;
   }
+  .tag.out { opacity: 0; transform: translateY(8px); filter: blur(4px); }
   .box {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -167,7 +170,7 @@
 <canvas id="wave" aria-hidden="true"></canvas>
 <main>
   <h1>trans<span>create</span></h1>
-  <p class="tag">Don't just translate it. Say it like a native.</p>
+  <p class="tag" id="tag" lang="en" aria-label="Don't just translate it. Say it like a native.">Don't just translate it. Say it like a native.</p>
 
   <div class="box">
     <textarea id="src" maxlength="3000" placeholder="Type or paste your text. Any language." autofocus></textarea>
@@ -330,6 +333,37 @@ $("copy").addEventListener("click", async () => {
       if (!document.hidden) loop();
     });
   }
+})();
+
+// Tagline rotates through languages, forever
+(function () {
+  const el = document.getElementById("tag");
+  const T = [
+    ["en", "ltr", "Don't just translate it. Say it like a native."],
+    ["es", "ltr", "No lo traduzcas sin más. Dilo como un nativo."],
+    ["pt", "ltr", "Não se limite a traduzir. Diga como um nativo."],
+    ["fr", "ltr", "Ne vous contentez pas de traduire. Dites-le comme un natif."],
+    ["it", "ltr", "Non limitarti a tradurre. Dillo come un madrelingua."],
+    ["de", "ltr", "Übersetze nicht nur. Sag es wie ein Muttersprachler."],
+    ["ja", "ltr", "ただ翻訳するのではなく、ネイティブのように伝えよう。"],
+    ["zh", "ltr", "别只是翻译,要像母语者那样表达。"],
+    ["ko", "ltr", "그저 번역하지 마세요. 원어민처럼 말하세요."],
+    ["ar", "rtl", "لا تكتفِ بالترجمة. قلها كما يقولها أهل اللغة."],
+    ["ru", "ltr", "Не просто переводите. Говорите как носитель языка."],
+    ["hi", "ltr", "सिर्फ़ अनुवाद मत कीजिए। मूल भाषी की तरह कहिए।"],
+    ["tr", "ltr", "Sadece çevirmeyin. Ana dili gibi söyleyin."]
+  ];
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let i = 0;
+  setInterval(() => {
+    if (document.hidden) return;
+    el.classList.add("out");
+    setTimeout(() => {
+      i = (i + 1) % T.length;
+      el.lang = T[i][0]; el.dir = T[i][1]; el.textContent = T[i][2];
+      el.classList.remove("out");
+    }, 460);
+  }, 3600);
 })();
 </script>
 </body>
