@@ -1,0 +1,106 @@
+TRANSCREATE LAUNCH POSTS
+Author: Kenyon Weiss
+
+Link everywhere: https://transcreate.com
+Post one place at a time, spread over a week or two. Read each community's self-promotion rules first.
+
+
+1. SHOW HN (Hacker News)
+
+Title:
+Show HN: Transcreate, a free tool that rewrites text the way a native would say it
+
+Body:
+I run a brand and creative agency, and I've spent twenty years watching good lines die in translation. A tagline gets translated word for word, every word is correct, and it still sounds like a brochure from another country.
+
+Transcreate is my attempt at fixing that for everyday use. You paste text in any language, pick the output language and a dialect (Argentinian or Mexican Spanish, Brazilian or European Portuguese, Quebec French and so on), and it rewrites the idea instead of translating the words. Sometimes that means the output looks nothing like the input, which is the point.
+
+It's one text box. No sign-up, no account, free. Twenty-one languages, up to 3,000 characters at a time. It runs on Claude through the API, with a prompt tuned for tone and register instead of fidelity.
+
+I'd like to hear from native speakers in particular. Where does it still sound translated? Which dialects feel off?
+
+https://transcreate.com
+
+
+2. REDDIT, r/SideProject
+
+Title:
+I built a free tool that rewrites text the way a native speaker would say it, instead of translating it
+
+Body:
+Background: I run a creative agency and kept seeing the same problem. Literal translation gets the words right and the feel wrong.
+
+So I built Transcreate. Paste text, pick a language and dialect, get a rewrite that sounds like it started there. One box, no sign-up, free.
+
+It's live and I'm still tuning it. If you try it with a language you speak, tell me what sounds off. That's the feedback I need most.
+
+https://transcreate.com
+
+
+3. REDDIT, language and translation subs (r/languagelearning, r/translation, r/Spanish and similar; check rules first, some ban tools)
+
+Title:
+Does this sound native to you? Testing a free tool that rewrites instead of translates
+
+Body:
+I made a small free tool that takes your text and rewrites it for a chosen language and dialect, aiming for how a native speaker would actually say it. No sign-up.
+
+I'm not asking anyone to use it. I'm asking native speakers to try a line or two and tell me honestly where it still sounds like a translation. Dialects especially: Argentinian vs Mexican Spanish, Brazilian vs European Portuguese.
+
+https://transcreate.com
+
+
+4. REDDIT, r/copywriting and r/marketing
+
+Title:
+Free tool for the "this translation is correct but dead" problem
+
+Body:
+Anyone who has sent a campaign line off for translation knows the result: accurate and flat. I built a free tool that rewrites copy for a target market instead of translating it, with dialect choices so Mexican Spanish doesn't come back as Madrid Spanish.
+
+It's a single box, no account. I'd like honest reactions from people who write for a living. Does the output hold up?
+
+https://transcreate.com
+
+
+5. LINKEDIN (your own voice)
+
+Most translations are correct and still wrong.
+
+Twenty years in creative agencies taught me this: a line can survive translation word for word and lose everything that made it work. The pun dies. The warmth goes. It reads like a manual.
+
+So I built something small. Transcreate takes your text, in any language, and rewrites it the way a native speaker of your chosen market would say it. Argentinian or Mexican. Brazilian or Portuguese. American or British. Pick one, get the line back.
+
+It's free, there's no sign-up, and it's one text box. Try it on the headline you've been nervous about sending abroad, and tell me where it misses.
+
+transcreate.com
+
+
+6. X
+
+Translation gets the words right. Transcreation gets the feeling right.
+
+I built a free tool for it: paste text, pick a language and a dialect, get it back the way a native would say it. No sign-up.
+
+transcreate.com
+
+
+7. PRODUCT HUNT
+
+Tagline (60 characters max):
+Say it like a native, not like a translation
+
+Description:
+Paste text in any language, pick an output language and dialect, and Transcreate rewrites it the way a native speaker would say it. Free, no sign-up, 21 languages.
+
+First comment from you:
+I've worked in creative agencies for twenty years, and the same thing kept happening: translated copy that was correct and lifeless. Transcreate is a free, one-box tool built around the opposite idea, rewriting for the reader instead of converting the words. I'd love to know where it sounds off in the languages you speak.
+
+
+8. DIRECTORY LISTINGS (There's An AI For That, Futurepedia, AlternativeTo, Uneed, BetaList)
+
+Name: Transcreate
+URL: https://transcreate.com
+One line: Free AI transcreation. Rewrites your text the way a native speaker would say it, with dialect choices.
+Longer: Paste text in any language, choose from 21 output languages and regional dialects, and get a native-sounding rewrite instead of a literal translation. Free, no sign-up, up to 3,000 characters at a time. Built by Kenyon Weiss of Brand Studios.
+Categories: Translation, Writing, Marketing, Localization
