@@ -118,10 +118,15 @@
   .into { color: var(--muted); font-size: 15px; margin: 0 4px 0 2px; }
   select {
     font: 400 15px Geist, "Helvetica Neue", Arial, sans-serif;
-    padding: 10px 14px;
+    padding: 10px 38px 10px 16px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.75 6 6.25l4.5-4.5' fill='none' stroke='%238b8f9a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
     color: var(--ink);
     outline: none;
     cursor: pointer;
