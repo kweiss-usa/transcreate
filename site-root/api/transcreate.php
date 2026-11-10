@@ -12,16 +12,54 @@ $key = $cfg['anthropic_key'] ?? '';
 $model = $cfg['model'] ?? 'claude-haiku-5-5';
 if ($key === '') out(500, ['error' => 'Server is not configured yet.']);
 
-// Simple per-IP limit: 12 requests a minute.
+// Only same-site browser calls (blocks other websites from borrowing the engine).
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '') {
+  $oh = strtolower((string)parse_url($origin, PHP_URL_HOST));
+  if ($oh !== 'transcreate.com' && $oh !== 'www.transcreate.com') out(403, ['error' => 'Not allowed.']);
+}
+
+// Real visitor IP. Behind Cloudflare, REMOTE_ADDR is Cloudflare's edge, so read CF-Connecting-IP,
+// but only when the request truly came from a Cloudflare address (otherwise it could be forged).
+function in_cidr($ip, $cidr) {
+  list($net, $bits) = explode('/', $cidr);
+  $a = @inet_pton($ip); $n = @inet_pton($net);
+  if ($a === false || $n === false || strlen($a) !== strlen($n)) return false;
+  $bits = (int)$bits; $bytes = intdiv($bits, 8); $rem = $bits % 8;
+  if ($bytes && substr($a, 0, $bytes) !== substr($n, 0, $bytes)) return false;
+  if ($rem) { $mask = (0xFF << (8 - $rem)) & 0xFF; if ((ord($a[$bytes]) & $mask) !== (ord($n[$bytes]) & $mask)) return false; }
+  return true;
+}
+$CF = ['173.245.48.0/20','103.21.244.0/22','103.22.200.0/22','103.31.4.0/22','141.101.64.0/18','108.162.192.0/18','190.93.240.0/20','188.114.96.0/20','197.234.240.0/22','198.41.128.0/17','162.158.0.0/15','104.16.0.0/13','104.24.0.0/14','172.64.0.0/13','131.0.72.0/22','2400:cb00::/32','2606:4700::/32','2803:f800::/32','2405:b500::/32','2405:8100::/32','2a06:98c0::/29','2c0f:f248::/32'];
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'x';
+$cf = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+if ($cf !== '' && filter_var($cf, FILTER_VALIDATE_IP)) {
+  foreach ($CF as $c) { if (in_cidr($ip, $c)) { $ip = $cf; break; } }
+}
+
 $dir = __DIR__ . '/../_tc/rate';
 if (!is_dir($dir)) @mkdir($dir, 0700, true);
+
+// Per-visitor limit: 12 requests a minute.
 $f = $dir . '/' . md5($ip);
 $now = time();
 $hits = is_file($f) ? array_filter(array_map('intval', explode(',', (string)file_get_contents($f))), fn($t) => $now - $t < 60) : [];
 $hits[] = $now;
-@file_put_contents($f, implode(',', $hits));
+@file_put_contents($f, implode(',', $hits), LOCK_EX);
 if (count($hits) > 12) out(429, ['error' => 'Slow down a little and try again in a minute.']);
+
+// Daily ceiling for the whole site, a hard stop on runaway cost. Set daily_cap in config.php to change it.
+$cap = (int)($cfg['daily_cap'] ?? 2000);
+$df = $dir . '/day-' . gmdate('Ymd');
+$fh = @fopen($df, 'c+');
+if ($fh) {
+  flock($fh, LOCK_EX);
+  $n = (int)stream_get_contents($fh);
+  if ($n >= $cap) { flock($fh, LOCK_UN); fclose($fh); out(503, ['error' => 'Transcreate is at capacity for today. Please come back tomorrow.']); }
+  ftruncate($fh, 0); rewind($fh); fwrite($fh, (string)($n + 1));
+  flock($fh, LOCK_UN); fclose($fh);
+  foreach (glob($dir . '/day-*') ?: [] as $old) { if ($old !== $df && filemtime($old) < $now - 172800) @unlink($old); }
+}
 
 $in = json_decode(file_get_contents('php://input'), true) ?: [];
 $text = trim((string)($in['text'] ?? ''));
