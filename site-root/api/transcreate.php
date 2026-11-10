@@ -51,23 +51,35 @@ $payload = json_encode([
   'messages' => [['role' => 'user', 'content' => "Target: $target\n\nText:\n<<<\n$text\n>>>"]],
 ]);
 
-$ch = curl_init('https://api.anthropic.com/v1/messages');
-curl_setopt_array($ch, [
-  CURLOPT_POST => true,
-  CURLOPT_POSTFIELDS => $payload,
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_TIMEOUT => 60,
-  CURLOPT_HTTPHEADER => ['content-type: application/json', 'x-api-key: ' . $key, 'anthropic-version: 2023-06-01'],
-]);
-$res = curl_exec($ch);
-$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+function call_engine($payload, $key) {
+  $ch = curl_init('https://api.anthropic.com/v1/messages');
+  curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $payload,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 60,
+    CURLOPT_HTTPHEADER => ['content-type: application/json', 'x-api-key: ' . $key, 'anthropic-version: 2023-06-01'],
+  ]);
+  $res = curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+  if ($res === false || $code !== 200) { error_log('transcreate: api http ' . $code . ' ' . substr((string)$res, 0, 300)); return null; }
+  $data = json_decode($res, true);
+  $raw = '';
+  foreach (($data['content'] ?? []) as $blk) {
+    if (($blk['type'] ?? '') === 'text') $raw .= $blk['text'] ?? '';
+  }
+  $raw = trim($raw);
+  if ($raw === '') { error_log('transcreate: empty reply, stop_reason=' . ($data['stop_reason'] ?? '?') . ' ' . substr($res, 0, 300)); return null; }
+  $parsed = null;
+  if (preg_match('/\{.*\}/s', $raw, $m)) $parsed = json_decode($m[0], true);
+  if (!is_array($parsed)) $parsed = ['detected' => '', 'output' => $raw];
+  $output = trim((string)($parsed['output'] ?? ''));
+  if ($output === '') return null;
+  return ['detected' => (string)($parsed['detected'] ?? ''), 'output' => $output];
+}
 
-if ($res === false || $code !== 200) out(502, ['error' => 'The engine is busy. Try again in a moment.']);
-
-$data = json_decode($res, true);
-$raw = $data['content'][0]['text'] ?? '';
-$parsed = null;
-if (preg_match('/\{.*\}/s', $raw, $m)) $parsed = json_decode($m[0], true);
-if (!is_array($parsed)) $parsed = ['detected' => '', 'output' => trim($raw)];
-out(200, ['detected' => $parsed['detected'] ?? '', 'output' => $parsed['output'] ?? '']);
+$result = call_engine($payload, $key);
+if ($result === null) $result = call_engine($payload, $key);
+if ($result === null) out(502, ['error' => 'The engine is busy. Try again in a moment.']);
+out(200, $result);
